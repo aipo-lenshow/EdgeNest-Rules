@@ -1,0 +1,25 @@
+{
+  "id": "google_services",
+  "nameZh": "Google 服务",
+  "nameEn": "Google services",
+  "descZh": "Google 搜索 / Gmail / Drive / 账号 / 基础 API 与 CDN。",
+  "descEn": "Google Search, Gmail, Drive, accounts, core APIs and CDNs.",
+  "defaultOutbound": "proxy",
+  "defaultOn": true,
+  "suffixes": [
+    "google.com",
+    "googleapis.com",
+    "gstatic.com",
+    "googleusercontent.com",
+    "gmail.com",
+    "googlemail.com",
+    "googledrive.com",
+    "withgoogle.com",
+    "gvt1.com",
+    "gvt2.com",
+    "1e100.net",
+    "googletagmanager.com",
+    "recaptcha.net"
+  ],
+  "keywords": []
+}

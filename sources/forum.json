@@ -1,0 +1,19 @@
+{
+  "id": "forum",
+  "nameZh": "技术论坛",
+  "nameEn": "Tech communities",
+  "descZh": "Hacker News / V2EX / Reddit 等技术讨论社区。",
+  "descEn": "Hacker News, V2EX, Reddit and other technical communities.",
+  "defaultOutbound": "proxy",
+  "defaultOn": false,
+  "suffixes": [
+    "reddit.com",
+    "redd.it",
+    "redditmedia.com",
+    "redditstatic.com",
+    "reddituploads.com",
+    "ycombinator.com",
+    "v2ex.com"
+  ],
+  "keywords": []
+}

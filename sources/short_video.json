@@ -1,0 +1,30 @@
+{
+  "id": "short_video",
+  "nameZh": "短视频",
+  "nameEn": "Short video",
+  "descZh": "TikTok / CapCut / Likee / Kwai 国际版等短视频平台。",
+  "descEn": "TikTok, CapCut, Likee, Kwai and other short-video platforms.",
+  "defaultOutbound": "proxy",
+  "defaultOn": false,
+  "suffixes": [
+    "tiktok.com",
+    "tiktokcdn.com",
+    "tiktokcdn-us.com",
+    "tiktokv.com",
+    "tiktokv.us",
+    "tik-tokapi.com",
+    "byteoversea.com",
+    "ibytedtos.com",
+    "ibyteimg.com",
+    "muscdn.com",
+    "musical.ly",
+    "sgpstatp.com",
+    "ttwebview.com",
+    "capcut.com",
+    "likee.video",
+    "kwai.com",
+    "lemon8-app.com",
+    "triller.co"
+  ],
+  "keywords": []
+}

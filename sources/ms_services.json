@@ -1,0 +1,32 @@
+{
+  "id": "ms_services",
+  "nameZh": "Microsoft 服务",
+  "nameEn": "Microsoft services",
+  "descZh": "Microsoft 账号 / Office 365 / OneDrive / Outlook 等平台基础服务。",
+  "descEn": "Microsoft accounts, Office 365, OneDrive, Outlook and other platform services.",
+  "defaultOutbound": "proxy",
+  "defaultOn": true,
+  "suffixes": [
+    "microsoft.com",
+    "microsoftonline.com",
+    "office.com",
+    "office365.com",
+    "office.net",
+    "live.com",
+    "outlook.com",
+    "hotmail.com",
+    "onedrive.com",
+    "sharepoint.com",
+    "windows.com",
+    "windows.net",
+    "windowsupdate.com",
+    "msftauth.net",
+    "msauth.net",
+    "msecnd.net",
+    "msftconnecttest.com",
+    "skype.com",
+    "microsoftstore.com",
+    "msn.com"
+  ],
+  "keywords": []
+}

@@ -1,0 +1,28 @@
+{
+  "id": "apple_overseas",
+  "nameZh": "Apple 服务",
+  "nameEn": "Apple services",
+  "descZh": "Apple Intelligence / Private Relay / News+ / TV+ / Music 等 Apple 服务的域名。",
+  "descEn": "Domains for Apple services: Apple Intelligence, Private Relay, News+, TV+, Music.",
+  "defaultOutbound": "proxy",
+  "defaultOn": false,
+  "suffixes": [
+    "smoot.apple.com",
+    "private-relay.apple.com",
+    "apple-relay.apple.com",
+    "mask.icloud.com",
+    "mask-h2.icloud.com",
+    "mask-api.icloud.com",
+    "p01-relay.icloud.com",
+    "p02-relay.icloud.com",
+    "gspe1-ssl.ls.apple.com",
+    "gspe35-ssl.ls.apple.com",
+    "news.apple.com",
+    "news-edge.apple.com",
+    "tv.apple.com",
+    "uts-api.itunes.apple.com",
+    "music.apple.com",
+    "applemusic.com"
+  ],
+  "keywords": []
+}

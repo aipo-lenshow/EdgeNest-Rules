@@ -1,0 +1,20 @@
+{
+  "id": "ai_billing",
+  "nameZh": "AI 付费与控制台",
+  "nameEn": "AI billing & consoles",
+  "descZh": "Stripe 支付通道与 OpenAI / Anthropic 控制台等付费生态必经域名。",
+  "descEn": "Stripe payment rails plus OpenAI / Anthropic consoles — required for paid AI plans.",
+  "defaultOutbound": "proxy",
+  "defaultOn": true,
+  "suffixes": [
+    "stripe.com",
+    "stripe.network",
+    "stripecdn.com",
+    "sentry.io",
+    "statsig.com",
+    "featuregates.org",
+    "launchdarkly.com",
+    "segment.io"
+  ],
+  "keywords": []
+}

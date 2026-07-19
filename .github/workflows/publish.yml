@@ -1,0 +1,97 @@
+name: publish catalog
+
+# The repo's whole job: keep dist/catalog.json on the `rule-set` branch current,
+# without anyone having to remember to do it. Clients poll that branch.
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 03:00 UTC daily. The catalog only changes when sources change, so most
+    # runs publish nothing — they exist so the domain review keeps running.
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build catalog
+        # Validation lives in the build script (unknown fields, empty packs,
+        # ids that disagree with their file name, one domain routed two ways).
+        # A bad source fails HERE, where the diff that caused it is on screen —
+        # never on a user's device.
+        run: python3 scripts/build_catalog.py --out dist/catalog.json
+
+      - name: Publish to the rule-set branch
+        run: |
+          set -euo pipefail
+          git config user.name "AiPo"
+          git config user.email "aipo@ailenshow.com"
+          # An orphan branch holding only the artifact: clients fetch one file
+          # and shouldn't drag the source history along with it.
+          git checkout --orphan rule-set-tmp
+          git rm -rq --cached . || true
+          mkdir -p out && cp dist/catalog.json out/
+          git add -f out/catalog.json
+          git mv out/catalog.json catalog.json
+          if git diff --cached --quiet; then
+            echo "catalog unchanged — nothing to publish"
+            exit 0
+          fi
+          git commit -qm "catalog $(date -u +%Y-%m-%d)"
+          git push -f origin rule-set-tmp:rule-set
+          echo "published"
+
+  review-domains:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Look for names that stopped resolving
+        id: check
+        run: |
+          python3 scripts/check_domains.py --json report.json | tee findings.txt
+          echo "count=$(python3 -c 'import json;print(len(json.load(open("report.json"))))')" >> "$GITHUB_OUTPUT"
+
+      - name: Open a review issue
+        # Advisory only — see the script's header for what this can and cannot
+        # detect. Nothing is ever removed automatically.
+        if: steps.check.outputs.count != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = [
+              'These pack entries stopped resolving (apex and `www.` both absent).',
+              'This is a prompt to look, not an instruction to delete: a name can',
+              'be unreachable from one network and healthy from another.',
+              '',
+              '```',
+              fs.readFileSync('findings.txt', 'utf8').trim(),
+              '```',
+            ].join('\n');
+            const title = 'Domain review: entries that stopped resolving';
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'domain-review',
+            });
+            // Update the standing issue rather than opening one a day.
+            if (open.data.length) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: open.data[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ['domain-review'],
+              });
+            }

@@ -1,0 +1,31 @@
+{
+  "id": "ai_media",
+  "nameZh": "AI 生成媒体",
+  "nameEn": "AI media generation",
+  "descZh": "Midjourney / Runway / Luma / ElevenLabs / Suno 等图像、视频、音频生成服务。",
+  "descEn": "Image / video / audio generation: Midjourney, Runway, Luma, ElevenLabs, Suno.",
+  "defaultOutbound": "proxy",
+  "defaultOn": true,
+  "suffixes": [
+    "midjourney.com",
+    "ideogram.ai",
+    "leonardo.ai",
+    "stability.ai",
+    "flux.ai",
+    "recraft.ai",
+    "runwayml.com",
+    "runway.com",
+    "lumalabs.ai",
+    "luma.ai",
+    "klingai.com",
+    "pixverse.ai",
+    "heygen.com",
+    "synthesia.io",
+    "sora.com",
+    "elevenlabs.io",
+    "suno.ai",
+    "suno.com",
+    "udio.com"
+  ],
+  "keywords": []
+}

@@ -1,0 +1,26 @@
+{
+  "id": "ai_ide",
+  "nameZh": "AI 编程助手",
+  "nameEn": "AI coding tools",
+  "descZh": "Cursor / Windsurf / Cline / Continue / GitHub Copilot 等编程助手的鉴权与 API 域名。",
+  "descEn": "Auth and API domains for Cursor / Windsurf / Cline / Continue / GitHub Copilot.",
+  "defaultOutbound": "proxy",
+  "defaultOn": true,
+  "suffixes": [
+    "cursor.com",
+    "cursor.sh",
+    "cursorapi.com",
+    "cursor-cdn.com",
+    "workos.com",
+    "todesktop.com",
+    "codeium.com",
+    "windsurf.com",
+    "exa.ai",
+    "cline.bot",
+    "continue.dev",
+    "aider.chat",
+    "githubcopilot.com",
+    "copilot-proxy.githubusercontent.com"
+  ],
+  "keywords": []
+}
