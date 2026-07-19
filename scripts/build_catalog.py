@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import pathlib
 import sys
@@ -101,9 +102,19 @@ def main() -> None:
             seen[entry] = (pack["id"], pack["defaultOutbound"])
 
     now = dt.datetime.now(dt.timezone.utc)
+    # Date PLUS a digest of the content. Clients compare this string to decide
+    # whether a download is worth writing, so a bare date would make the second
+    # change on any given day invisible to every device — the update would be
+    # refused as "same version" and nobody would see why. It is also what the
+    # publish step compares to decide whether there is anything to publish —
+    # the file itself is never byte-identical between runs, since generatedAt
+    # moves every time.
+    digest = hashlib.sha256(
+        json.dumps(ordered, ensure_ascii=False, sort_keys=True).encode()
+    ).hexdigest()[:8]
     catalog = {
         "schema": 1,
-        "version": now.strftime("%Y%m%d"),
+        "version": f"{now:%Y%m%d}.{digest}",
         "generatedAt": now.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "packs": ordered,
     }

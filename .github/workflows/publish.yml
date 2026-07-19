@@ -33,20 +33,31 @@ jobs:
           set -euo pipefail
           git config user.name "AiPo"
           git config user.email "aipo@ailenshow.com"
-          # An orphan branch holding only the artifact: clients fetch one file
-          # and shouldn't drag the source history along with it.
-          git checkout --orphan rule-set-tmp
-          git rm -rq --cached . || true
-          mkdir -p out && cp dist/catalog.json out/
-          git add -f out/catalog.json
-          git mv out/catalog.json catalog.json
-          if git diff --cached --quiet; then
-            echo "catalog unchanged — nothing to publish"
+          NEW_VERSION="$(python3 -c 'import json;print(json.load(open("dist/catalog.json"))["version"])')"
+          # Compare VERSIONS, not files: generatedAt moves on every run, so the
+          # catalog is never byte-identical and a file comparison would commit
+          # a no-op every single day. The version carries a digest of the pack
+          # content, so equal version == nothing actually changed.
+          OLD_VERSION=""
+          if git fetch -q origin rule-set 2>/dev/null; then
+            OLD_VERSION="$(git show origin/rule-set:catalog.json 2>/dev/null \
+              | python3 -c 'import json,sys;print(json.load(sys.stdin).get("version",""))' || true)"
+          fi
+          if [ -n "$OLD_VERSION" ] && [ "$OLD_VERSION" = "$NEW_VERSION" ]; then
+            echo "catalog unchanged ($NEW_VERSION) — nothing to publish"
             exit 0
           fi
-          git commit -qm "catalog $(date -u +%Y-%m-%d)"
+          # An orphan branch holding only the artifact: clients fetch one file
+          # and shouldn't drag the source history along with it.
+          git checkout -q --orphan rule-set-tmp
+          git rm -rq --cached . || true
+          cp dist/catalog.json /tmp/catalog.json
+          git rm -rq --ignore-unmatch . >/dev/null 2>&1 || true
+          cp /tmp/catalog.json catalog.json
+          git add -f catalog.json
+          git commit -qm "catalog $NEW_VERSION"
           git push -f origin rule-set-tmp:rule-set
-          echo "published"
+          echo "published $NEW_VERSION"
 
   review-domains:
     runs-on: ubuntu-latest

@@ -1,5 +1,7 @@
 # edgenest-rules
 
+中文说明: [README_CN.md](./README_CN.md)
+
 Routing rule data for the EdgeNest client, published as a single catalog file.
 
 Clients read `catalog.json` from the `rule-set` branch. Everything on `main` is
