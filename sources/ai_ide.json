@@ -6,21 +6,52 @@
   "descEn": "Auth and API domains for Cursor / Windsurf / Cline / Continue / GitHub Copilot.",
   "defaultOutbound": "proxy",
   "defaultOn": true,
+  "upstream": [
+    "cursor",
+    "github-copilot",
+    "windsurf"
+  ],
+  "add": {
+    "suffixes": [
+      "aider.chat",
+      "cline.bot",
+      "codeium.com",
+      "continue.dev",
+      "copilot-proxy.githubusercontent.com",
+      "cursor-cdn.com",
+      "cursor.com",
+      "cursor.sh",
+      "cursorapi.com",
+      "exa.ai",
+      "githubcopilot.com",
+      "todesktop.com",
+      "windsurf.com",
+      "workos.com"
+    ],
+    "keywords": []
+  },
+  "exclude": [],
   "suffixes": [
+    "aider.chat",
+    "cline.bot",
+    "codeium.com",
+    "codeiumdata.com",
+    "continue.dev",
+    "copilot-proxy.githubusercontent.com",
+    "copilot-telemetry-service.githubusercontent.com",
+    "copilot-telemetry.githubusercontent.com",
+    "copilot-workspace.githubnext.com",
+    "copilotprodattachments.blob.core.windows.net",
+    "cursor-cdn.com",
     "cursor.com",
     "cursor.sh",
     "cursorapi.com",
-    "cursor-cdn.com",
-    "workos.com",
-    "todesktop.com",
-    "codeium.com",
-    "windsurf.com",
     "exa.ai",
-    "cline.bot",
-    "continue.dev",
-    "aider.chat",
     "githubcopilot.com",
-    "copilot-proxy.githubusercontent.com"
+    "todesktop.com",
+    "windsurf.build",
+    "windsurf.com",
+    "workos.com"
   ],
   "keywords": []
 }

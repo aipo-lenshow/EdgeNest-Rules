@@ -6,15 +6,34 @@
   "descEn": "Stripe payment rails plus OpenAI / Anthropic consoles — required for paid AI plans.",
   "defaultOutbound": "proxy",
   "defaultOn": true,
+  "upstream": [
+    "stripe"
+  ],
+  "add": {
+    "suffixes": [
+      "featuregates.org",
+      "launchdarkly.com",
+      "segment.io",
+      "sentry.io",
+      "statsig.com",
+      "stripe.com",
+      "stripe.network",
+      "stripecdn.com"
+    ],
+    "keywords": []
+  },
+  "exclude": [],
   "suffixes": [
-    "stripe.com",
-    "stripe.network",
-    "stripecdn.com",
-    "sentry.io",
-    "statsig.com",
     "featuregates.org",
     "launchdarkly.com",
-    "segment.io"
+    "link.com",
+    "segment.io",
+    "sentry.io",
+    "statsig.com",
+    "stripe-terminal-local-reader.net",
+    "stripe.com",
+    "stripe.network",
+    "stripecdn.com"
   ],
   "keywords": []
 }

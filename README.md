@@ -48,10 +48,43 @@ Packs ship as **domain lists, not compiled rule-set binaries**. Clients let a
 user retarget an individual domain inside a pack, which needs the entries
 themselves; a compiled set can't be taken apart again.
 
+## Where pack content comes from
+
+Most packs are **aligned with upstream every day** rather than kept by hand.
+Each such pack declares which upstream categories it follows, plus our own
+overlay:
+
+```jsonc
+"upstream": ["openai", "anthropic"],   // followed daily
+"add":      { "suffixes": [...] },     // ours; upstream doesn't carry these
+"exclude":  ["klingai.com"],           // ours; drop even if upstream has it
+"suffixes": [...]                      // GENERATED — do not hand-edit
+```
+
+    pack = (upstream categories) ∪ add − exclude
+
+Upstream is [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community)
+(MIT): a community-maintained, per-service categorisation that moves daily.
+Following it is what keeps a dead name from sitting in a pack until someone
+notices — `bard.google.com` outlived its product in our AI pack for months.
+
+Three vendors stay hand-kept on purpose: upstream's `apple` (1807 entries),
+`google` (1082) and `microsoft` (753) categories cover each vendor's entire
+surface, including endpoints served inside China. Our packs are the handful of
+services a user actually thinks about, so following those categories would
+inflate a 16-entry pack a hundredfold and change how it routes.
+
+`regexp:` entries are dropped on import — the client has no regex matcher, and
+a rule that is silently ignored is worse than one that is absent. The sync
+reports how many it dropped.
+
 ## Editing
 
 ```bash
-# edit sources/<pack>.json, then:
+# a hand-kept pack: edit sources/<pack>.json directly
+# an upstream-followed pack: edit its "add" / "exclude", never "suffixes"
+python3 scripts/sync_upstream.py --dry-run   # what upstream would change
+python3 scripts/sync_upstream.py             # apply it
 python3 scripts/build_catalog.py --out dist/catalog.json
 ```
 
@@ -60,8 +93,25 @@ an `id` that disagrees with its file name, a pack with no entries, and on the
 same domain appearing in two packs with **different** default outbounds (the
 client merges packs by outbound, so that would make matching a coin flip).
 
-Pushing to `main` publishes. A daily run republishes and re-checks; a run whose
-catalog is byte-identical publishes nothing.
+Pushing to `main` publishes what you wrote — a push never runs the upstream
+sync, so your change is never mixed with overnight upstream movement.
+
+## The daily run, and its brake
+
+03:00 UTC: sync with upstream → build → **check the diff is sane** → publish.
+
+`scripts/guard_changes.py` is the brake. An unattended daily edit of everyone's
+routing needs one: an upstream mistake — a category emptied, a merge that drops
+half a list — would otherwise reach every device within the day, silently. It
+holds the publish and opens an issue with the diff when
+
+- a pack loses more than 25 entries, or more than 30% of itself,
+- a pack empties or disappears,
+- the catalog more than triples in one run.
+
+Thresholds are about *shape*, not correctness; no script can judge correctness.
+A manual run (`workflow_dispatch`) is a human saying "I looked" and publishes
+regardless.
 
 ## Domain review
 
@@ -83,3 +133,7 @@ in that shape.
 ## License
 
 AGPL-3.0, matching the client.
+
+Pack content is derived from
+[v2fly/domain-list-community](https://github.com/v2fly/domain-list-community),
+licensed MIT.
