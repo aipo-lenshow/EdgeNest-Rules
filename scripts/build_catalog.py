@@ -78,9 +78,50 @@ def load_pack(path: pathlib.Path) -> dict:
     }
 
 
+def pack_rev(pack: dict) -> str:
+    """Digest of the part of a pack that changes what it DOES.
+
+    Names and descriptions are deliberately excluded: a wording fix must not
+    make every client announce "this pack changed" and must not reset the
+    pack's last-changed date. Routing content only.
+    """
+    payload = {
+        "defaultOutbound": pack["defaultOutbound"],
+        "suffixes": pack["suffixes"],
+        "keywords": pack["keywords"],
+    }
+    return hashlib.sha256(
+        json.dumps(payload, ensure_ascii=False, sort_keys=True).encode()
+    ).hexdigest()[:8]
+
+
+def load_previous(path: str | None) -> dict[str, dict]:
+    """Per-pack info from the previously published catalog, keyed by id.
+
+    A pack whose content is unchanged KEEPS its old `updatedAt` — otherwise
+    every pack would read "updated today" on every publish, which tells a user
+    nothing. Missing/unreadable previous catalog is not an error: the first
+    build simply stamps everything with today.
+    """
+    if not path:
+        return {}
+    try:
+        doc = json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {
+        p["id"]: p for p in doc.get("packs", []) if isinstance(p, dict) and p.get("id")
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="dist/catalog.json")
+    ap.add_argument(
+        "--previous",
+        help="the currently published catalog.json; per-pack change dates are "
+        "carried over from it for packs whose content did not change",
+    )
     args = ap.parse_args()
 
     packs = {p.stem: load_pack(p) for p in sorted(SOURCES.glob("*.json"))}
@@ -102,6 +143,22 @@ def main() -> None:
             seen[entry] = (pack["id"], pack["defaultOutbound"])
 
     now = dt.datetime.now(dt.timezone.utc)
+    stamp = now.replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+    # Per-pack version + change date. Without these a client can say "the
+    # catalog changed" but not WHICH pack changed — which is the only form of
+    # that news a user can act on.
+    previous = load_previous(args.previous)
+    for pack in ordered:
+        rev = pack_rev(pack)
+        prev = previous.get(pack["id"])
+        pack["rev"] = rev
+        pack["updatedAt"] = (
+            prev.get("updatedAt") or stamp
+            if prev and prev.get("rev") == rev
+            else stamp
+        )
+
     # Date PLUS a digest of the content. Clients compare this string to decide
     # whether a download is worth writing, so a bare date would make the second
     # change on any given day invisible to every device — the update would be
@@ -115,7 +172,7 @@ def main() -> None:
     catalog = {
         "schema": 1,
         "version": f"{now:%Y%m%d}.{digest}",
-        "generatedAt": now.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "generatedAt": stamp,
         "packs": ordered,
     }
     out = pathlib.Path(args.out)

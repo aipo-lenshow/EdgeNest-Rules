@@ -21,12 +21,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Fetch the currently published catalog
+        # Feeds the build the previous artifact so a pack whose content did not
+        # change keeps its old change date. Without it every pack would read
+        # "updated today" on every publish — noise a user can't act on.
+        run: |
+          git fetch -q origin rule-set 2>/dev/null || true
+          git show origin/rule-set:catalog.json > /tmp/previous-catalog.json 2>/dev/null || true
+
       - name: Build catalog
         # Validation lives in the build script (unknown fields, empty packs,
         # ids that disagree with their file name, one domain routed two ways).
         # A bad source fails HERE, where the diff that caused it is on screen —
         # never on a user's device.
-        run: python3 scripts/build_catalog.py --out dist/catalog.json
+        run: |
+          python3 scripts/build_catalog.py --out dist/catalog.json \
+            --previous /tmp/previous-catalog.json
 
       - name: Publish to the rule-set branch
         run: |
