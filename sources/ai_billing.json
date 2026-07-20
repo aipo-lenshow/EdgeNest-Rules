@@ -15,10 +15,7 @@
       "launchdarkly.com",
       "segment.io",
       "sentry.io",
-      "statsig.com",
-      "stripe.com",
-      "stripe.network",
-      "stripecdn.com"
+      "statsig.com"
     ],
     "keywords": []
   },

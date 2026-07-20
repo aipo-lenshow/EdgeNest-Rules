@@ -14,10 +14,6 @@
   ],
   "add": {
     "suffixes": [
-      "redd.it",
-      "reddit.com",
-      "redditmedia.com",
-      "redditstatic.com",
       "reddituploads.com",
       "v2ex.com",
       "ycombinator.com"

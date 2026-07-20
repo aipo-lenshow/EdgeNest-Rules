@@ -13,14 +13,10 @@
   ],
   "add": {
     "suffixes": [
-      "apple-relay.apple.com",
-      "applemusic.com",
-      "gspe1-ssl.ls.apple.com",
       "gspe35-ssl.ls.apple.com",
       "mask-api.icloud.com",
       "mask-h2.icloud.com",
       "mask.icloud.com",
-      "music.apple.com",
       "news-edge.apple.com",
       "news.apple.com",
       "p01-relay.icloud.com",

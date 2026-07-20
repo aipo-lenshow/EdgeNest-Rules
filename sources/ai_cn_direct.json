@@ -12,27 +12,16 @@
   "add": {
     "suffixes": [
       "01.ai",
-      "baichuan-ai.com",
-      "bigmodel.cn",
-      "chatglm.cn",
       "dashscope.aliyuncs.com",
-      "deepseek.com",
-      "doubao.com",
       "hailuo.ai",
-      "hunyuan.tencent.com",
       "iflytek.com",
-      "kimi.com",
       "minimax.io",
-      "minimaxi.com",
-      "moonshot.cn",
       "qwen.aliyun.com",
       "step.fun",
       "stepfun.com",
-      "tongyi.aliyun.com",
       "volcengine.com",
       "volces.com",
-      "xfyun.cn",
-      "zhipuai.cn"
+      "xfyun.cn"
     ],
     "keywords": []
   },
