@@ -6,8 +6,7 @@ Two ways `add` grows stale, both invisible without this:
   1. **Upstream caught up.** An entry we added ourselves later shows up in the
      upstream category too. Keeping our copy changes nothing about routing, but
      it means the entry can never be retired: upstream dropping it has no
-     effect, because our copy keeps it alive. Every such duplicate is a future
-     zombie.
+     effect, because the local copy keeps it alive.
   2. **The name died.** An entry only we carry, whose domain no longer resolves
      at all. Upstream cleanup can't reach it — it isn't upstream's.
 

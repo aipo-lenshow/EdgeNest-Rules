@@ -6,7 +6,7 @@ name: publish catalog
 # Once a day it also re-aligns the packs with the upstream community lists
 # (v2fly/domain-list-community, MIT) so a dead domain does not sit in a pack
 # until someone happens to notice. A daily unattended edit of everyone's
-# routing needs a brake, so scripts/guard_changes.py holds anything that looks
+# routing needs a guard, so scripts/guard_changes.py holds anything that looks
 # like an upstream breakage instead of publishing it.
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
 
       - name: Check the diff is not an upstream accident
         id: guard
-        # A manual run is a human saying "yes, I looked" — it publishes
+        # A manual run counts as reviewed — it publishes
         # regardless. Scheduled runs must clear the limits.
         run: |
           set +e

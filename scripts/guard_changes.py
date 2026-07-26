@@ -2,7 +2,7 @@
 """Decide whether a freshly built catalog is safe to publish unattended.
 
 The daily sync exists so nobody has to watch it. That is exactly why it needs a
-brake: an upstream mistake — a category emptied, a merge that drops half a list
+guard: an upstream mistake — a category emptied, a merge that drops half a list
 — would otherwise reach every device's routing table within the day, silently.
 
 So: small movements publish themselves; anything large stops and asks. The

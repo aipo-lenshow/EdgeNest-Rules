@@ -96,12 +96,12 @@ client merges packs by outbound, so that would make matching a coin flip).
 Pushing to `main` publishes what you wrote — a push never runs the upstream
 sync, so your change is never mixed with overnight upstream movement.
 
-## The daily run, and its brake
+## The daily run, and its guard
 
 03:00 UTC: sync with upstream → build → **check the diff is sane** → publish.
 
-`scripts/guard_changes.py` is the brake. An unattended daily edit of everyone's
-routing needs one: an upstream mistake — a category emptied, a merge that drops
+`scripts/guard_changes.py` guards the publish. An unattended daily edit of
+everyone's routing needs one: an upstream mistake — a category emptied, a merge that drops
 half a list — would otherwise reach every device within the day, silently. It
 holds the publish and opens an issue with the diff when
 
@@ -109,9 +109,9 @@ holds the publish and opens an issue with the diff when
 - a pack empties or disappears,
 - the catalog more than triples in one run.
 
-Thresholds are about *shape*, not correctness; no script can judge correctness.
-A manual run (`workflow_dispatch`) is a human saying "I looked" and publishes
-regardless.
+Thresholds measure the *size* of a change, not whether its contents are right;
+no script can judge the latter. A manual run (`workflow_dispatch`) counts as
+reviewed and publishes regardless.
 
 ## Domain review
 
