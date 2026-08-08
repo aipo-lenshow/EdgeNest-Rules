@@ -161,9 +161,10 @@ jobs:
           script: |
             const fs = require('fs');
             const body = [
-              'These pack entries stopped resolving (apex and `www.` both absent).',
+              'The DNS authority reports these pack entries as gone (NXDOMAIN) —',
+              'not merely an apex without an address record, which is normal.',
               'This is a prompt to look, not an instruction to delete: a name can',
-              'be unreachable from one network and healthy from another.',
+              'be NXDOMAIN from one network and healthy from another.',
               '',
               '```',
               fs.readFileSync('findings.txt', 'utf8').trim(),
