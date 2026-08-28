@@ -8,6 +8,7 @@
   "defaultOn": true,
   "suffixes": [
     "google.com",
+    "google.com.hk",
     "googleapis.com",
     "gstatic.com",
     "googleusercontent.com",
