@@ -9,25 +9,44 @@
   "upstream": [
     "cursor",
     "github-copilot",
-    "windsurf"
+    "windsurf",
+    "jetbrains-ai"
   ],
   "add": {
     "suffixes": [
       "aider.chat",
+      "ampcode.com",
+      "augmentcode.com",
+      "bolt.new",
       "cline.bot",
+      "coderabbit.ai",
       "continue.dev",
+      "devin.ai",
       "exa.ai",
+      "factory.ai",
+      "kiro.dev",
+      "lovable.dev",
+      "opencode.ai",
+      "qoder.com",
+      "replit.com",
       "todesktop.com",
-      "workos.com"
+      "v0.app",
+      "warp.dev",
+      "workos.com",
+      "zed.dev"
     ],
     "keywords": []
   },
   "exclude": [],
   "suffixes": [
     "aider.chat",
+    "ampcode.com",
+    "augmentcode.com",
+    "bolt.new",
     "cline.bot",
     "codeium.com",
     "codeiumdata.com",
+    "coderabbit.ai",
     "continue.dev",
     "copilot-proxy.githubusercontent.com",
     "copilot-telemetry-service.githubusercontent.com",
@@ -38,12 +57,25 @@
     "cursor.com",
     "cursor.sh",
     "cursorapi.com",
+    "devin.ai",
     "exa.ai",
+    "factory.ai",
     "githubcopilot.com",
+    "grazie.ai",
+    "grazie.aws.intellij.net",
+    "jetbrains.ai",
+    "kiro.dev",
+    "lovable.dev",
+    "opencode.ai",
+    "qoder.com",
+    "replit.com",
     "todesktop.com",
+    "v0.app",
+    "warp.dev",
     "windsurf.build",
     "windsurf.com",
-    "workos.com"
+    "workos.com",
+    "zed.dev"
   ],
   "keywords": []
 }
